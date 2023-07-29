@@ -1,3 +1,4 @@
+using Api.Dodai.Configuration;
 using Api.Dodai.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -5,9 +6,13 @@ using Microsoft.Extensions.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DodaiDB");
+ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddDbContext<DodaiDbContext>(x => x.UseSqlServer(connectionString));
+
+builder.Services.RegisterServices(configuration);
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
